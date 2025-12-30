@@ -1,123 +1,105 @@
-# Installation
+# Installation & Configuration
 
-## Installation et mise en place de la BDD
+Ce projet utilise des conteneurs Docker.<br>
+Un qui permet la mise en place de la DB. Et l'autre permet la mise en place de l'application Flask.
 
-### Créer le fichier "installation.sql"
+## Sommaire
+- [Installation de l'application Flask et de la DB](#installation-de-lapplication-flask-et-de-la-db)
+  - [Configuration avant lancement des conteneurs](#configuration-avant-lancement-des-conteneurs)
+- [Installation d'une machine cliente](#installation-dune-machine-cliente)
+  - [Autorisation de lecture des logs](#autorisation-de-lecture-des-logs)
 
-```sql 
-create database if not exists applogs DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-use applogs
+## Installation de l'application Flask et de la DB
 
-create table if not exists privileges(
-       id TinyInt not null unique,
-       p_name varchar(50) not null,
-       primary key (id)
-) engine=InnoDB default charset=utf8; 
-
-insert into privileges values
-       (1, "Viewing logs"),
-       (2, "Servers management"),
-       (4, "Users management");
-       
-create table if not exists roles(
-       id TinyInt not null auto_increment,
-       r_name varchar(50) not null,
-       privileges TinyInt not null unique,
-       primary key (id)
-) engine=InnoDB default charset=utf8; 
-
-insert into roles (r_name, privileges) values
-       ("User", 1),
-       ("Manager", 3),
-       ("Administrator", 7);
-
-create table if not exists machines(
-       id Int not null auto_increment,
-       hostname varchar(50) not null unique,
-       ip varchar(15) not null unique,
-       primary key (id)
-) engine=InnoDB default charset=utf8; 
-
-insert into machines (hostname, ip) values
-       ("srv1", "94.56.133.12"),
-       ("srv2", "94.56.133.15"),
-       ("srv3", "94.56.132.110"),
-       ("srv4", "94.56.132.124"),
-       ("srv5", "94.56.134.2");
-
-create table if not exists users(
-       id Int not null auto_increment,
-       username varchar(50) not null,
-       passwd varchar(255) not null,
-       rights Int not null,
-       primary key (id)
-) engine=InnoDB default charset=utf8;
-
-insert into users (username, passwd, rights) values
-       ("admin", SHA2("admin", 256), 7),
-       ("manager", SHA2("manager", 256), 3),
-       ("user", SHA2("user", 256), 3);
-
-create table if not exists logs (
-       id Int not null auto_increment,
-       file_path varchar(255) not null unique,
-       primary key (id)
-) engine=InnoDB default charset=utf8;
-
-insert into logs (file_path) values
-    ('/var/log/syslog');
+Cloner le repositorie GitHub
+```bash
+git clone https://github.com/CodeWithRaph/Remote-log-reader.git
+cd Remote-log-reader
 ```
 
-### Installation du paquet et éxécution du script
+### Configuration avant lancement des conteneurs
+
+1. Modifiez le contenu du fichier `.env.example` :
+
+> ## Aide:
+> ### Paramètres (obligatoire)
+>- **DB_USER:** Utilisateur de la DB.
+>- **DB_PASSWD:** Mot de passe de l'utilisateur DB.
+>- **SECRET_KEY:** La clé qui permet l'encryption de l'application Flask côté serveur.
+>- **SSH_USER:** L'utilisateur qui sera utilisé pour lire les logs sur les machines clientes.
+>---
+> ### Paramètres (Facultatifs)
+>- DB_HOST: *Identifie la machine qui host le serveur MariaDb. Sauf si vous décidez de mettre le conteneur sur une autre machine il est inutile de changer cette variable.*
+>- SSH_KEY_PATH : *préréglé sur le chemin relatif par défaut.*
+
+2. Renommer le fichier `.env.example` par `.env`
+```bash
+mv .env.example .env
+```
+
+3. Lancer les conteneurs Docker
+```bash
+docker compose up -d
+```
+
+## Installation d'une machine cliente
+
+1. Création de l'utilisateur qui servira à établir la connexion SSH.
+> ## Aide:
+>`<user>`: Remplacer par l'utilisateur qui sera utilisé pour lire les logs sur la machine.<br>
+>`<mdp>`: Mot de passe utilisateur.<br>
+>`<log-readers>`: Remplacer par le nom du groupe qui aura les droits de lecture.
 
 ```bash
-    sudo apt install mariadb-server
-    mysql -u <username> -p
+sudo useradd <user>
+sudo passwd <mdp>
+sudo groupadd <logs-readers>
+sudo usermod -aG <logs-readers> user
 ```
 
-Puis l'éxécuter avec :
-
-```sql
-       source installation.sql;
+3. Récupérer la clé RSA publique du serveur central (via scp) puis la glisser dans la liste de clé autorisées.
+```bash
+sudo mkdir ~/.ssh
+cat rsa_publique_serveur >> ~/.ssh/authorized_keys
 ```
 
+### Autorisation de lecture des logs
 
-## Installation des dépendances de l'application
+Il y a **2 options** possibles:
+- Autoriser le groupe <log-readers> à lire tout les fichiers d'un répertoire (plus simple).
+- Autoriser le groupe <log-readers> à lire une liste précise de fichiers (plus sécurisé).
 
-Il faut d'abord créer l'environnement python
+---
+- #### 1ère option: Autoriser un répertoire entier
+
+> ## Aide:
+>`<log-readers>`: Remplacer par le nom du groupe qui aura les droits de lecture.
 
 ```bash
-    pip install Flask
-    pip install -U Flask-SQLAlchemy
-    pip install mariadb
-    pip3 install fabric
+sudo apt install acl
+sudo setfacl -R -m d:g:<logs-readers>:rX /chemin/vers/repertoire
 ```
 
-## Setup d'une machine cliente
+---
+- #### 2ème option: Autoriser une liste précise de fichiers
 
 ```bash
-       sudo useradd <user>
-       sudo passwd <mdp>
-       sudo groupadd <logs-readers>
-       sudo usermod -aG <logs-readers> user
-
-       sudo apt install acl
-       sudo setfacl -m g:<logs-readers>:r /chemin/vers/le/fichier.log
+sudo apt install acl
 ```
 
-- Récupérer la clé RSA publique du serveur central
+Pour cette méthode il faudra mettre à jour manuellement le script pour changer la liste de fichiers.<br>
+Dans ce contexte on ne fait pas entièrement confiance aux supposées autorisations de lecture de fichiers, données dans l'application Flask.
+
+> ## Aide:
+>`<log-readers>`: Remplacer par le nom du groupe qui aura les droits de lecture.
 ```bash
-       sudo mkdir ~/.ssh
-       cat rsa_public_serveur >> ~/.ssh/authorized_keys
-```
+#!/usr/bin/bash
+group="log-readers"
+files_path=("/var/log/syslog" "/var/log/auth.log" "/var/log/kern.log")
 
-## Setup du serveur
-
-définir les paramètres dans le script python
-```python
-       # path of the rsa key on the central server
-       private_key_path = os.path.expanduser("~/.ssh/id_rsa")
-       # user used on remotes machines
-       username = "qamu" 
+for path in "${files_path[@]}"; do
+  sudo setfacl -m g:$group:r $path
+  echo "Set read permission for group '$group' on file '$path'"
+done
 ```
