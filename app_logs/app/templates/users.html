@@ -1,0 +1,89 @@
+{% extends 'index.html'%}
+{% block body %}
+
+<div class="page-grid">
+  <div class="table-panel">
+    <table>
+      <thead>
+          <tr>
+              <th>Roles</th>
+              <th>Privileges</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for role, privileges in table %}
+          <tr>
+              <td>{{role.r_name}}</td>
+              <td>
+                  <ul>
+                      {% for privilege in privileges%}
+                      <li>{{privilege}}</li>
+                      {% endfor %}
+                  </ul>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <aside class="form-panel">
+    <div class="form-card">
+      <h3>Gérer les utilisateurs</h3>
+      <form action="{{ url_for('log.selectedUser') }}" method="post">
+        <div class="form-row">
+          <div class="form-field">
+            <select id="user-choice" class="choice" name="user_id" size="{{ liste|length or 5 }}" required>
+                {% for user , role in liste%}
+                    <option value="{{user.id}}">{{user.username}} ({{role.r_name}})</option>
+                {% endfor %}
+            </select>
+            <div class="form-help">Choisissez un utilisateur à Modifier ou Supprimer.</div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-outline" type="submit" name="action" value="edit">Modifier</button>
+          <button class="btn btn-outline-warning" type="submit" name="action" value="delete">Supprimer</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="form-card">
+      <h3>Ajouter un utilisateur</h3>
+      <form action="{{ url_for('log.addUser') }}" method="post">
+        <div class="form-row">
+          <div class="form-field">
+            <label class="required">Nom d'utilisateur</label>
+            <input type="text" name="username" placeholder="Nom d'utilisateur" maxlength="50" required>
+          </div>
+          <div class="form-field">
+            <label class="required">Rôle</label>
+            <select class="choice" name="role">
+                {% for role in roles%}
+                    <option value="{{role.privileges}}">{{role.r_name}}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="required">Mot de passe</label>
+            <input type="password" name="passwd" placeholder="Mot de passe" required>
+          </div>
+          <div class="form-field">
+            <label class="required">Confirmer</label>
+            <input type="password" name="passwd2" placeholder="Confirmer mot de passe" required>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn" type="submit">Créer un utilisateur</button>
+        </div>
+      </form>
+    </div>
+  </aside>
+</div>
+
+{% endblock %}

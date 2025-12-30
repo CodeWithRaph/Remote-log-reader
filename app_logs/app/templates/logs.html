@@ -1,0 +1,88 @@
+{% extends 'index.html'%}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='checkbox.css') }}">
+{% endblock %}
+{% block body %}
+
+<main style="display:flex; justify-content:center; padding:32px 24px;">
+  <div style="max-width:1000px; width:100%;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+
+      <div class="form-card" style="width:100%; box-sizing:border-box;">
+        <div class="form-header">
+          <h2>Consultation des journaux</h2>
+        </div>
+        <form action="" method="POST">
+          <div class="form-row">
+            <div class="form-field">
+              <div class="options">
+                <p class="text-muted2">Quelle(s) machine(s) souhaitez vous sélectionner ?</p>
+                {% if machines and machines|length > 0 %}
+                  {% for machine in machines %}
+                  <label class="muted">
+                    <input type="checkbox" name="machines" value="{{machine.ip}}"> {{machine.hostname}} - {{machine.ip}}
+                  </label><br>
+                  {% endfor %}
+                {% else %}
+                  <div class="muted">Aucune machine disponible</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-field">
+              <div class="options">
+                <p class="text-muted2">Quel(s) fichier(s) voulez-vous consulter ?</p>
+                {% if files and files|length > 0 %}
+                  {% for file in files %}
+                  <label class="muted">
+                    <input type="checkbox" name="files" value="{{file.file_path}}"> {{file.file_path}}
+                  </label><br>
+                  {% endfor %}
+                {% else %}
+                  <div class="muted">Aucun fichier disponible</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">Consulter</button>
+          </div>
+        </form>
+      </div>
+
+      {% if session.get('role') == 'Administrateur' %}
+      <div class="form-card" style="width:100%; box-sizing:border-box;">
+        <h3>Gérer les fichiers de logs</h3>
+        <form action="{{ url_for('log.manageLogs') }}" method="POST">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="new-log">Ajouter un fichier</label>
+              <input id="new-log" type="text" name="new_log_path" placeholder="ex: /var/log/syslog">
+              <div class="form-help">Saisissez le chemin absolu vers le fichier de logs à ajouter.</div>
+            </div>
+
+            <div class="form-field">
+              <label for="existing-log">Supprimer un fichier</label>
+              <select id="existing-log" name="file_to_manage" class="choice" size="{{ files|length or 5 }}">
+                {% for file in files %}
+                <option value="{{ file.file_path }}">{{ file.file_path }}</option>
+                {% endfor %}
+              </select>
+              <div class="form-help">Sélectionnez un fichier dans la liste à supprimer.</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-outline" type="submit" name="manage_action" value="add">Ajouter</button>
+            <button class="btn btn-outline-warning" type="submit" name="manage_action" value="delete">Supprimer</button>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}

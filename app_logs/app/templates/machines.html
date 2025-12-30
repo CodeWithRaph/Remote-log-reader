@@ -1,0 +1,43 @@
+{% extends 'index.html'%}
+{% block body %}
+
+    <div class="form-card">
+    <h2>Gérer les machines</h2>
+    <form action="{{ url_for('log.selectedMachine') }}" method="post">
+        <div class="form-row">
+        <div class="form-field">
+            <select id="choice" name="host_id" class="choice" size="{{ table|length }}" required>
+            {% for ligne in table %}
+                <option value="{{ ligne.id }}">{{ ligne.hostname }} - {{ ligne.ip }}</option>
+            {% endfor %}
+            </select>
+            <div class="form-help">Sélectionnez une machine à modifier ou supprimer.</div>
+        </div>
+        </div>
+
+        <div class="form-actions">
+        <button class="btn-outline" type="submit" name="action" value="edit">Modifier</button>
+        <button class="btn btn-outline-warning" type="submit" name="action" value="delete">Supprimer</button>
+        </div>
+    </form>
+    </div>
+
+    <div class="form-card">
+    <h2>Ajouter une machine</h2>
+    <form action="{{ url_for('log.addMachine') }}" method="post">
+        <div class="form-row">
+        <div class="form-field">
+            <label class="required">Nom d'hôte</label>
+            <input type="text" name="host" placeholder="Nom d'hôte" required>
+        </div>
+        <div class="form-field">
+            <label class="required">Adresse IP</label>
+            <input type="text" name="ip" placeholder="Adresse IP" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$">
+        </div>
+        </div>
+        <div class="form-actions">
+        <button class="btn" type="submit">Ajouter</button>
+        </div>
+    </form>
+    </div>
+{% endblock %}

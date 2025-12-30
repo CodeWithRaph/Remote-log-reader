@@ -1,0 +1,23 @@
+{% extends 'index.html'%}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='logs.css') }}">
+{% endblock %}
+{% block body %}
+    <main>
+        <ul>
+        {% for file in logs %}
+            <li>{{file}}</li>
+        {% endfor %}
+        </ul>
+        <pre>
+        <code class="language-text">
+{% if errors %}
+<span style="color: var(--warning-color);">
+{{errors}}
+</span>
+{% endif %}
+{{content}}
+        </code>
+        </pre>
+    </main>
+{% endblock %}

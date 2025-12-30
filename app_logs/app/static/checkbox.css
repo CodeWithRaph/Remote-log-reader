@@ -1,0 +1,24 @@
+.form-field {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.options {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    color: var(--text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 16px;
+}

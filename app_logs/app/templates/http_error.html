@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ code }} - {{ title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="card centered" style="max-width:760px; width:100%; text-align:center; padding:36px;">
+        <div style="font-size:72px; font-weight:700; color:var(--text-muted); line-height:1;">{{ code }}</div>
+        <h1 style="margin:10px 0 6px; color:var(--text-primary);">{{ title }}</h1>
+        <p style="margin:0 0 18px; color:var(--text-muted);">{{ message | safe }}</p>
+
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:18px;">
+        <a href="javascript:history.back()"><button>Retour</button></a>
+        </div>
+    </div>
+</body>
+</html>

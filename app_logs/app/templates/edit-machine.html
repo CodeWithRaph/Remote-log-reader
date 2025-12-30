@@ -1,0 +1,38 @@
+{% extends 'index.html'%}
+{% block body %}
+
+<div class="form-card compact centered">
+  <h3>Modifier une machine</h3>
+  <form action="/edit-machine" method="post" class="form-compact">
+    <input type="hidden" name="host_id" value="{{machine.id}}">
+
+    <div class="form-row">
+      <div class="form-field">
+        <label>Machine (lecture seule)</label>
+        <select id="choice" disabled class="choice">
+          <option>{{machine.hostname}} - {{machine.ip}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label class="required">Nom d'hôte</label>
+        <input type="text" name="host" placeholder="Nom d'hôte" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label class="required">Adresse IP</label>
+        <input type="text" name="ip" placeholder="Adresse IP" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$">
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Modifier</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

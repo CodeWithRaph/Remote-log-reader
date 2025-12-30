@@ -1,0 +1,18 @@
+{% extends 'index.html'%}
+{% block body %}
+    <div class="centered">
+        <div class="error-card " >
+            <div class="error-head">
+            <div class="error-icon" aria-hidden="true">!</div>
+            <h3 class="err-title">Erreur</h3>
+            </div>
+
+            <p class="err-desc">{{ err }}</p>
+
+            <div class="err-actions">
+            <a class="btn-outline-warning" href="javascript:history.back()">Retour</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

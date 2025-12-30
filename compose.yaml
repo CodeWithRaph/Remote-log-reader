@@ -1,0 +1,24 @@
+# Use root/example as user/password credentials
+
+services:
+
+  db:
+    image: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWD:-example}
+    volumes:
+      - installation.sql:/docker-entrypoint-initdb.d/installation.sql:ro
+
+  flaskapp:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      DATABASE_HOST: db
+      DATABASE_USER: ${DB_USER:-root}
+      DATABASE_PASSWORD: ${DB_PASSWD:-example}
+    depends_on:
+      - db

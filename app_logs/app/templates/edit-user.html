@@ -1,0 +1,42 @@
+{% extends 'index.html'%}
+{% block body %}
+
+<div class="form-card compact centered">
+  <h3>Modifier un utilisateur</h3>
+  <form action="/edit-user" method="post" class="form-compact">
+    <input type="hidden" name="user_id" value="{{user.id}}">
+
+    <div class="form-row">
+      <div class="form-field">
+        <label>Utilisateur (lecture seule)</label>
+        <select id="choice" disabled class="choice">
+          <option>{{user.username}} ({{user_role}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label class="required">Nom d'utilisateur</label>
+        <input type="text" name="username" placeholder="Nom d'utilisateur" maxlength="50" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label class="required">Rôle</label>
+        <select class="choice" name="role">
+            {% for role in roles%}
+                <option value="{{role.privileges}}">{{role.r_name}}</option>
+            {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Modifier</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
