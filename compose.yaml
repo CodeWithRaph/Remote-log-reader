@@ -8,7 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWD:-example}
     volumes:
-      - installation.sql:/docker-entrypoint-initdb.d/installation.sql:ro
+      - ./installation.sql:/docker-entrypoint-initdb.d/installation.sql:ro
+      - ./mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
 
   flaskapp:
     build: .
@@ -18,7 +19,7 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_HOST: db
-      DATABASE_USER: ${DB_USER:-root}
-      DATABASE_PASSWORD: ${DB_PASSWD:-example}
+    env_file:
+      - .env
     depends_on:
       - db
