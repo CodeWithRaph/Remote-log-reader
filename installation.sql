@@ -1,64 +1,64 @@
-drop database if exists applogs;
+drop DATABASE IF EXISTS applogs;
 
-create database if not exists applogs DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS applogs DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-use applogs
+USE applogs;
 
-create table if not exists privileges(
-       id TinyInt not null unique,
-       p_name varchar(50) not null,
-       primary key (id)
-) engine=InnoDB default charset=utf8; 
+CREATE TABLE IF NOT EXISTS privileges(
+       id TINYINT NOT NULL,
+       p_name VARCHAR(50) NOT NULL,
+       PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into privileges values
-       (1, "Consultation de journaux."),
-       (2, "Gestion de serveurs."),
-       (4, "Gestion des utilisateurs.");
-       
-create table if not exists roles(
-       id TinyInt not null auto_increment,
-       r_name varchar(50) not null,
-       privileges TinyInt not null unique,
-       primary key (id)
-) engine=InnoDB default charset=utf8; 
+INSERT INTO privileges (id, p_name) VALUES
+       (1, 'Consultation de journaux.'),
+       (2, 'Gestion de serveurs.'),
+       (4, 'Gestion des utilisateurs.');
 
-insert into roles (r_name, privileges) values
-       ("Utilisateur", 1),
-       ("Gestionnaire", 3),
-       ("Administrateur", 7);
+CREATE TABLE IF NOT EXISTS roles(
+       id TINYINT NOT NULL AUTO_INCREMENT,
+       r_name VARCHAR(50) NOT NULL,
+       privileges TINYINT NOT NULL,
+       PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table if not exists machines(
-       id Int not null auto_increment,
-       hostname varchar(50) not null unique,
-       ip varchar(15) not null unique,
-       primary key (id)
-) engine=InnoDB default charset=utf8; 
+INSERT INTO roles (r_name, privileges) VALUES
+       ('Utilisateur', 1),
+       ('Gestionnaire', 3),
+       ('Administrateur', 7);
 
-insert into machines (hostname, ip) values
-       ("srv1", "94.56.133.12"),
-       ("srv2", "94.56.133.15"),
-       ("srv3", "94.56.132.110"),
-       ("srv4", "94.56.132.124"),
-       ("srv5", "94.56.134.2");
+CREATE TABLE IF NOT EXISTS machines(
+       id INT NOT NULL AUTO_INCREMENT,
+       hostname VARCHAR(50) NOT NULL UNIQUE,
+       ip VARCHAR(15) NOT NULL UNIQUE,
+       PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table if not exists users(
-       id Int not null auto_increment,
-       username varchar(50) not null,
-       passwd varchar(255) not null,
-       rights Int not null,
-       primary key (id)
-) engine=InnoDB default charset=utf8;
+INSERT INTO machines (hostname, ip) VALUES
+       ('srv1', '94.56.133.12'),
+       ('srv2', '94.56.133.15'),
+       ('srv3', '94.56.132.110'),
+       ('srv4', '94.56.132.124'),
+       ('srv5', '94.56.134.2');
 
-insert into users (username, passwd, rights) values
-       ("admin", SHA2("admin", 256), 7),
-       ("manager", SHA2("manager", 256), 3),
-       ("user", SHA2("user", 256), 1);
+CREATE TABLE IF NOT EXISTS users(
+       id INT NOT NULL AUTO_INCREMENT,
+       username VARCHAR(50) NOT NULL,
+       passwd VARCHAR(255) NOT NULL,
+       rights INT NOT NULL,
+       PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table if not exists logs (
-       id Int not null auto_increment,
-       file_path varchar(255) not null unique,
-       primary key (id)
-) engine=InnoDB default charset=utf8;
+INSERT INTO users (username, passwd, rights) VALUES
+       ('admin', SHA2('admin', 256), 7),
+       ('manager', SHA2('manager', 256), 3),
+       ('user', SHA2('user', 256), 1);
 
-insert into logs (file_path) values
+CREATE TABLE IF NOT EXISTS logs (
+       id INT NOT NULL AUTO_INCREMENT,
+       file_path VARCHAR(255) NOT NULL UNIQUE,
+       PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO logs (file_path) VALUES
     ('/var/log/syslog');
