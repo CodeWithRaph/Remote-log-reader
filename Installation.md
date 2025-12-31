@@ -24,7 +24,6 @@ cd Remote-log-reader
 
 > ## Aide:
 > ### Paramètres (obligatoire)
->- **DB_USER:** Utilisateur de la DB.
 >- **DB_PASSWD:** Mot de passe de l'utilisateur DB.
 >- **SECRET_KEY:** La clé qui permet l'encryption de l'application Flask côté serveur.
 >- **SSH_USER:** L'utilisateur qui sera utilisé pour lire les logs sur les machines clientes.
