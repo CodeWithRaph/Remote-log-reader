@@ -34,13 +34,15 @@ cd Remote-log-reader
 
 2. Renommer le fichier `.env.example` par `.env`
 ```bash
-mv .env.example .env
+cp .env.example .env
 ```
 
 3. Lancer les conteneurs Docker
 ```bash
 docker compose up -d
 ```
+
+4. Now open [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ## Installation d'une machine cliente
 
