@@ -16,11 +16,11 @@ def findLogs(hosts, logs):
     """
 
     if len(hosts) == 0 and len(logs) == 0:
-        return "", "Erreur: les listes des hôtes et des fichiers journaux sont vides."
+        return "", "Erreur: Aucun hôte et aucun fichier journal fournis."
     elif len(hosts) == 0:
-        return "", "Erreur: la liste des hôtes est vide."
+        return "", "Erreur: Aucun hôte fournis."
     elif len(logs) == 0:
-        return "", "Erreur: la liste des fichiers journaux est vide."
+        return "", "Erreur: Aucun fichier journal."
 
     all_logs = []
     errors = []
