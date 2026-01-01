@@ -4,5 +4,5 @@ from config import Config
 app = create_app(Config)
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True) #can be removed in production
+    app.run(host='0.0.0.0', port=5000) # Change port in production
