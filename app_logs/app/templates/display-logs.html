@@ -9,15 +9,16 @@
             <li>{{file}}</li>
         {% endfor %}
         </ul>
-        <pre>
-        <code class="language-text">
+        
+        <pre><code class="language-text">
 {% if errors %}
 <span style="color: var(--warning-color);">
 {{errors}}
 </span>
 {% endif %}
+{% if content %}
 {{content}}
-        </code>
-        </pre>
+{% endif %}
+        </code></pre>
     </main>
 {% endblock %}
