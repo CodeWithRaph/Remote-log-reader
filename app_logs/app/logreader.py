@@ -15,23 +15,40 @@ def findLogs(hosts, logs):
     Returns a single concatenated content that contains the logs for each machine.
     """
 
+    if len(hosts) == 0 and len(logs) == 0:
+        return "", "Erreur: les listes des hôtes et des fichiers journaux sont vides."
+    elif len(hosts) == 0:
+        return "", "Erreur: la liste des hôtes est vide."
+    elif len(logs) == 0:
+        return "", "Erreur: la liste des fichiers journaux est vide."
+
     all_logs = []
     errors = []
     for host in hosts:
-        c = Connection(
-            host=host,
-            user=username,
-            port=22,
-            connect_kwargs={
-                "key_filename": private_key_path
-            }
-        )
+        try:
+            c = Connection(
+                host=host,
+                user=username,
+                port=22,
+                connect_kwargs={
+                    "key_filename": private_key_path
+                }
+            )
+        except Exception as e:
+            errors.append(f"Erreur [{host}]: connexion SSH échouée: {e}")
+            continue
+
         files = ""
         for path in logs:
             files += f"{path} "
 
-        result = c.run(f"cat {files} | sort -k1 -r", hide=True)
+        try:
+            result = c.run(f"cat {files} | sort -k1 -r", hide=True, warn=True)
+        except Exception as e:
+            errors.append(f"Erreur [{host}]: erreur lors de l'exécution distante: {e}")
+            continue
 
+    
         for line in result.stdout.splitlines():
             if line.strip():
                 all_logs.append(line)
@@ -60,7 +77,7 @@ def read(hosts, logs):
     return sort(arg1, arg2)
 
 def main():
-    hosts = ["192.168.122.103", "192.168.122.102"]
+    hosts = ["192.168.122.103", "192.168.122.101"]
     logs = ["/var/log/cron.log", "/var/log/syslog"]
     
     print(read(hosts, logs))
