@@ -5,7 +5,7 @@ import os
 import getpass
 
 # path of the rsa key on the central server
-private_key_path = os.path.expanduser(os.environ.get("SSH_KEY_PATH"))
+private_key_path = "/root/.ssh/id_rsa"
 # user used on remotes machines
 username = os.environ.get("SSH_USER")
 
