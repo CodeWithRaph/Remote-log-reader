@@ -8,6 +8,7 @@ Un qui permet la mise en place de la DB. Et l'autre permet la mise en place de l
   - [Configuration avant lancement des conteneurs](#configuration-avant-lancement-des-conteneurs)
 - [Installation d'une machine cliente](#installation-dune-machine-cliente)
   - [Autorisation de lecture des logs](#autorisation-de-lecture-des-logs)
+- [Passer le serveur en Production](#passer-le-serveur-en-production)
 
 
 ## Installation de l'application Flask et de la DB
@@ -25,7 +26,7 @@ cd Remote-log-reader
 > ## Aide:
 > ### Paramètres (obligatoire)
 >- **DB_PASSWD:** Mot de passe de l'utilisateur DB.
->- **SECRET_KEY:** La clé qui permet l'encryption de l'application Flask côté serveur.
+>- **SECRET_KEY:** La clé qui permet l'encryption de l'application Flask côté serveur.  Cette valeur doit être remplacée par des octets aléatoires en **production**.
 >- **SSH_USER:** L'utilisateur qui sera utilisé pour lire les logs sur les machines clientes.
 >---
 > ### Paramètres (Facultatifs)
@@ -42,7 +43,7 @@ cp .env.example .env
 docker compose up -d
 ```
 
-4. Now open [http://127.0.0.1:5000](http://127.0.0.1:5000)
+4. Ouvrez maintenant [http://127.0.0.1:5000](http://127.0.0.1:5000) (Serveur de développement)
 
 ## Installation d'une machine cliente
 
@@ -56,6 +57,7 @@ Il y a **2 options** possibles:
 #### 1ère option: Autoriser un répertoire entier
 
 1. Création de l'utilisateur qui servira à établir la connexion SSH.
+
 > ## Aide:
 >`<user>`: Remplacer par l'utilisateur qui sera utilisé pour lire les logs sur la machine.<br>
 >`<mdp>`: Mot de passe utilisateur.<br>
@@ -69,6 +71,7 @@ sudo usermod -aG adm <user>
 ```
 
 2. Récupérer la clé RSA publique du serveur central (via scp) puis la glisser dans la liste de clé autorisées.
+
 ```bash
 su <user>
 sudo mkdir ~/.ssh
@@ -116,3 +119,18 @@ for path in "${files_path[@]}"; do
   echo "Set read permission for group '$group' on file '$path'"
 done
 ```
+
+## Passer le serveur en Production
+
+```bash
+mv compose.yaml compose.dev.yaml
+mv compose.prod.yaml compose.yaml
+mv Dockerfile Dockerfile.dev
+mv Dockerfile.prod Dockerfile
+```
+
+```bash
+docker compose up --build
+```
+
+Ouvrez maintenant [http://127.0.0.1:8080](http://127.0.0.1:8080) (Serveur en Production)
