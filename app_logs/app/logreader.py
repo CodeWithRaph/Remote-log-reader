@@ -7,7 +7,7 @@ import getpass
 # path of the rsa key on the central server
 private_key_path = "/root/.ssh/id_rsa"
 # user used on remotes machines
-username = os.environ.get("SSH_USER")
+username = os.getenv("SSH_USER")
 
 def findLogs(hosts, logs):
     """
