@@ -45,7 +45,15 @@ docker compose up -d
 
 4. Ouvrez maintenant [http://127.0.0.1:5000](http://127.0.0.1:5000) (Serveur de développement)
 
+| Login | Mot de passe |
+|:-----:|:------------:|
+|admin|admin|
+|manager|manager|
+|user|user|
+
 ## Installation d'une machine cliente
+
+Bien entendu la première chose à vérifier est que la machine cliente accède au serveur.
 
 ### Autorisation de lecture des logs
 
@@ -129,8 +137,16 @@ mv Dockerfile Dockerfile.dev
 mv Dockerfile.prod Dockerfile
 ```
 
+> ## Attention !
+> **En production** il <u>faut</u> utiliser une clé d'encryption **générée aléatoirement**.<br>
+> Ce changement s'applique dans le fichier `.env` que vous avez normalement créé après avoir modifié `.env.example`.<br>
+> [Voir aide](#configuration-avant-lancement-des-conteneurs)
+
 ```bash
 docker compose up --build
 ```
 
-Ouvrez maintenant [http://127.0.0.1:8080](http://127.0.0.1:8080) (Serveur en Production)
+*(Veillez à supprimer les utilisateurs créé automatiquement lors de l'initialisation de la db)*<br>
+
+Ouvrez maintenant [http://127.0.0.1:8000](http://127.0.0.1:8000) (Serveur en Production)
+
