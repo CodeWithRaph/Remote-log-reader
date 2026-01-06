@@ -8,6 +8,8 @@ import getpass
 private_key_path = "/root/.ssh/id_rsa"
 # user used on remotes machines
 username = os.getenv("SSH_USER")
+# optional passphrase for the private key (set via environment variable)
+ssh_key_passphrase = os.getenv("SSH_PASSPHRASE")
 
 def findLogs(hosts, logs):
     """
@@ -26,13 +28,15 @@ def findLogs(hosts, logs):
     errors = []
     for host in hosts:
         try:
+            connect_kwargs = {"key_filename": private_key_path}
+            if ssh_key_passphrase:
+                connect_kwargs["passphrase"] = ssh_key_passphrase
+
             c = Connection(
                 host=host,
                 user=username,
                 port=22,
-                connect_kwargs={
-                    "key_filename": private_key_path
-                }
+                connect_kwargs=connect_kwargs
             )
         except Exception as e:
             errors.append(f"Erreur [{host}]: connexion SSH échouée: {e}")

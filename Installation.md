@@ -28,6 +28,7 @@ cd Remote-log-reader
 >- **DB_PASSWD:** Mot de passe de l'utilisateur DB.
 >- **SECRET_KEY:** La clé qui permet l'encryption de l'application Flask côté serveur.  Cette valeur doit être remplacée par des octets aléatoires en **production**.
 >- **SSH_USER:** L'utilisateur qui sera utilisé pour lire les logs sur les machines clientes.
+>- **SSH_PASSPHRASE:** La phrase de passe utilisée pour la clé ssh du serveur flask. Laissez vide si vous n'utiliser pas de passphrase pour votre clé ssh.
 >---
 > ### Paramètres (Facultatifs)
 >- DB_HOST: *Identifie la machine qui host le serveur MariaDb. Sauf si vous décidez de mettre le conteneur sur une autre machine il est inutile de changer cette variable.*
@@ -43,7 +44,8 @@ cp .env.example .env
 docker compose up -d
 ```
 
-4. Ouvrez maintenant [http://127.0.0.1:5000](http://127.0.0.1:5000) (Serveur de développement)
+4. Ouvrez maintenant [http://127.0.0.1:5000](http://127.0.0.1:5000) (Serveur de développement)<br>
+*(Si vous êtes en localhost bien évidemment sinon remplacer l'IP par celle de la machine qui héberge le conteneur.)*
 
 | Login | Mot de passe |
 |:-----:|:------------:|
@@ -148,5 +150,6 @@ docker compose up --build
 
 *(Veillez à supprimer les utilisateurs créé automatiquement lors de l'initialisation de la db)*<br>
 
-Ouvrez maintenant [http://127.0.0.1:8000](http://127.0.0.1:8000) (Serveur en Production)
+Ouvrez maintenant [http://127.0.0.1:8000](http://127.0.0.1:8000) (Serveur en Production)<br>
+*(Si vous êtes en localhost bien évidemment sinon remplacer l'IP par celle de la machine qui héberge le conteneur.)*
 
