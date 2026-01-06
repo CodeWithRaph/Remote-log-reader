@@ -2,13 +2,15 @@ from werkzeug.datastructures import ImmutableMultiDict
 import hashlib, hmac
 
 def ip_valide(ip):
-    """Says if a string is an ip address or not"""
+    """Says if a string is an ip address or not. Broadcast not allowed."""
     ip = ip.split(".")
     if len(ip) == 4:
         for byte in ip:
             byte = int(byte)
             if not(byte >= 0 and byte <= 255):
                 return False
+    elif ip == "255.255.255.255":
+        return False
     else:
         return False
     return True
