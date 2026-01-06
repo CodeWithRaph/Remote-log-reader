@@ -185,10 +185,10 @@ def deleteUser(id):
     allowed_session = session.get('loggedin') and session.get('role') == 'Administrateur'
 
     if allowed_session:
-        if User.remove_user(id):
+        deleted, err_msg = User.remove_user(id)
+        if deleted:
             return redirect(url_for('log.users'))
         else:
-            err_msg = "L'utilisateur demandé n'existe pas."
             return render_template('err.html', err=err_msg)
     return abort(403)
 

@@ -62,13 +62,17 @@ class User(db.Model):
     @staticmethod
     def remove_user(id):
         """Remove the concerned user from the right table of the db"""
+        from flask import session
+
+        if id == f'{session.get('id')}':
+            return (False, "Vous ne pouvez pas supprimer votre propre compte.")
         u = User.query.get(id)
         
         if u != None:
             db.session.delete(u)
             db.session.commit()
-            return True
-        return False
+            return (True, "")
+        return (False, "L'utilisateur demandé n'existe pas.")
 
     @staticmethod
     def edit_user(id, username, rights):
