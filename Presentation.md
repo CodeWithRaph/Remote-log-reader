@@ -3,11 +3,26 @@
 Cette solution fournit une interface web moderne qui permet de centraliser et de simplifier la lecture de fichiers de logs sur des machines distantes. L'installation de l'application est prévue pour être simple (Dockerisation). Il y a aussi un système de privilège qui donne accès à différentes ressources aux utilisateurs.
 
 ## Sommaire
-- [Présentation](#présentation)
+- [Schéma](#schéma)
 - [Fonctionnalités](#fonctionnalités)
 - [Rôles](#rôles)
 - [Base de données](#base-de-données)
 - [Sécurité](#sécurité)
+
+## Schéma
+
+```mermaid
+graph LR
+    
+    
+    A[Conteneur Flask ] <--> C[Serveur]
+    B[(Conteneur MariaDB)] <--> C
+
+    C --> D[Client]
+    C --> E[Client]
+    C --> F[...]
+    C --> G[Client]
+```
 
 ## Fonctionnalités
 
