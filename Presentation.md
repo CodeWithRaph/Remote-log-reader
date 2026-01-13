@@ -30,10 +30,10 @@ graph LR
     - Lecture d'un ou plusieurs fichier à la fois.
     - Sur une à plusieurs machines.
     - Triés par ordre chronologique décroissant.
-    - Avec affichage des erreurs.<br>*(Connexion SSH impossible, problème de droits sur la machines distante)*.
+    - Affichage des erreurs.<br>*(Connexion SSH impossible, problème de droits sur la machines distante)*.
     - Gestion de la liste de fichiers que l'on peut demander depuis l'application.
 2. **Gestion des machines**
-    - Ajouter une machine *(Nom d'hôte, ip)*.
+    - Ajouter une machine *(Nom d'hôte, IP)*.
     - Modifier une machine.
     - Supprimer une machine.
 3. **Gestion des utilisateurs**

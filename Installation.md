@@ -47,6 +47,8 @@ docker compose up -d
 4. Ouvrez maintenant [http://127.0.0.1:5000](http://127.0.0.1:5000) (Serveur de développement)<br>
 *(Si vous êtes en localhost bien évidemment sinon remplacer l'IP par celle de la machine qui héberge le conteneur.)*
 
+Les comptes inclus par défaut pour effectuer des tests.
+
 | Login | Mot de passe |
 |:-----:|:------------:|
 |admin|admin|
