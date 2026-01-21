@@ -15,7 +15,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "80:8000"
     environment:
       FLASK_DEBUG: 0
       DATABASE_HOST: db
