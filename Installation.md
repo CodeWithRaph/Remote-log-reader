@@ -134,11 +134,6 @@ done
 
 ## Passer le serveur en Production
 
-Si les conteneurs sont toujours allumés.
-```bash
-docker compose down -v
-```
-
 ```bash
 mv compose.yaml compose.dev.yaml
 mv compose.prod.yaml compose.yaml
