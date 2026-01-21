@@ -138,7 +138,10 @@ done
 
 ## Switch the server to production
 
-To prepare production assets you can swap the compose and Dockerfile variants (example approach used in this project):
+Si les conteneurs sont toujours allumés.
+```bash
+docker compose down -v
+```
 
 ```bash
 mv compose.yaml compose.dev.yaml
@@ -158,6 +161,6 @@ docker compose up --build
 
 *(Remove test users created by the database seeding before running in production.)*<br>
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000) (Production server)
+Open [http://127.0.0.1:80](http://127.0.0.1:80) (Production server)
 
 *(If you run on a remote machine, replace 127.0.0.1 with the host IP.)*

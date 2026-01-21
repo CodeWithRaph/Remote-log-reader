@@ -134,6 +134,11 @@ done
 
 ## Passer le serveur en Production
 
+Si les conteneurs sont toujours allumés.
+```bash
+docker compose down -v
+```
+
 ```bash
 mv compose.yaml compose.dev.yaml
 mv compose.prod.yaml compose.yaml
@@ -152,6 +157,6 @@ docker compose up --build
 
 *(Veillez à supprimer les utilisateurs créé automatiquement lors de l'initialisation de la db)*<br>
 
-Ouvrez maintenant [http://127.0.0.1:8000](http://127.0.0.1:8000) (Serveur en Production)<br>
+Ouvrez maintenant [http://127.0.0.1:80](http://127.0.0.1:80) (Serveur en Production)<br>
 *(Si vous êtes en localhost bien évidemment sinon remplacer l'IP par celle de la machine qui héberge le conteneur.)*
 
