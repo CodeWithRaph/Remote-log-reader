@@ -30,7 +30,7 @@
   <aside class="form-panel">
     <div class="form-card">
       <h3>Gérer les utilisateurs</h3>
-      <form action="{{ url_for('log.selectedUser') }}" method="post">
+      <form action="{{ url_for('user.selectedUser') }}" method="post">
         <div class="form-row">
           <div class="form-field">
             <select id="user-choice" class="choice" name="user_id" size="{{ liste|length or 5 }}" required>
@@ -51,7 +51,7 @@
 
     <div class="form-card">
       <h3>Ajouter un utilisateur</h3>
-      <form action="{{ url_for('log.addUser') }}" method="post">
+      <form action="{{ url_for('user.addUser') }}" method="post">
         <div class="form-row">
           <div class="form-field">
             <label class="required">Nom d'utilisateur</label>

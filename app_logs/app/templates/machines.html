@@ -3,7 +3,7 @@
 
     <div class="form-card">
     <h2>Gérer les machines</h2>
-    <form action="{{ url_for('log.selectedMachine') }}" method="post">
+    <form action="{{ url_for('machine.selectedMachine') }}" method="post">
         <div class="form-row">
         <div class="form-field">
             <select id="choice" name="host_id" class="choice" size="{{ table|length }}" required>
@@ -24,7 +24,7 @@
 
     <div class="form-card">
     <h2>Ajouter une machine</h2>
-    <form action="{{ url_for('log.addMachine') }}" method="post">
+    <form action="{{ url_for('machine.addMachine') }}" method="post">
         <div class="form-row">
         <div class="form-field">
             <label class="required">Nom d'hôte</label>

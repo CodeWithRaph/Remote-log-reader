@@ -10,7 +10,7 @@ def create_app(config_class = Config):
     app.config.from_object(config_class)
     db.init_app(app)
 
-    from app.logs import blueprints
+    from app.routes import blueprints
 
     for blueprint in blueprints:
         app.register_blueprint(blueprint)

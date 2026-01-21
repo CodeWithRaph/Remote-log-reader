@@ -12,19 +12,19 @@
       <a href="{{ url_for('log.logs') }}">Journaux</a>
 
       {% if session.get('loggedin') and session.get('role') in ['Gestionnaire', 'Administrateur'] %}
-        <a href="{{ url_for('log.machines') }}">Machines</a>
+        <a href="{{ url_for('machine.machines') }}">Machines</a>
       {% else %}
         <a class="disabled">Machines</a>
       {% endif %}
 
       {% if session.get('loggedin') and session.get('role') == 'Administrateur' %}
-        <a href="{{ url_for('log.users') }}">Utilisateurs</a>
+        <a href="{{ url_for('user.users') }}">Utilisateurs</a>
       {% else %}
         <a class="disabled">Utilisateurs</a>
       {% endif %}
 
       {% if session.get('loggedin') %}
-        <a href="{{ url_for('log.logout') }}">Déconnexion</a>
+        <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
       {% endif %}
     </nav>
     {% endblock %}
