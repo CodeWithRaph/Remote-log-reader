@@ -29,6 +29,7 @@ cd Remote-log-reader
 >- **SECRET_KEY:** the secret used by Flask to secure sessions/cookies/forms. Replace with a randomly generated value in production.
 >- **SSH_USER:** the user used to read logs on client machines.
 >- **SSH_PASSPHRASE:** passphrase for the server SSH private key. Leave empty if your key has no passphrase.
+>- **SSH_CONNECT_TIMEOUT:** ssh connection timeout in second.
 > ---
 > ### Optional parameters
 >- DB_HOST: host for MariaDB. If you run the DB in the provided container you typically leave the default.

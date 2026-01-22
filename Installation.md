@@ -29,6 +29,7 @@ cd Remote-log-reader
 >- **SECRET_KEY:** La clé qui permet l'encryption de l'application Flask côté serveur.  Cette valeur doit être remplacée par des octets aléatoires en **production**.
 >- **SSH_USER:** L'utilisateur qui sera utilisé pour lire les logs sur les machines clientes.
 >- **SSH_PASSPHRASE:** La phrase de passe utilisée pour la clé ssh du serveur flask. Laissez vide si vous n'utiliser pas de passphrase pour votre clé ssh.
+>- **SSH_CONNECT_TIMEOUT:** Timeout en seconde pour la connection ssh.
 >---
 > ### Paramètres (Facultatifs)
 >- DB_HOST: *Identifie la machine qui host le serveur MariaDb. Sauf si vous décidez de mettre le conteneur sur une autre machine il est inutile de changer cette variable.*
