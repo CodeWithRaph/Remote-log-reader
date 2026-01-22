@@ -74,3 +74,23 @@ code{
     color: var(--secondary-color) !important;
     
 }
+
+body#loading{
+    text-align:center;
+    padding:3rem;
+    color: var(--text-muted);
+}
+.spinner{
+    margin:1.5rem auto;
+    width:40px;
+    height:40px;
+    border:5px solid var(--text-inactive);
+    border-top-color:var(--primary-color);
+    border-radius:50%;
+    animation:spin 1s linear infinite
+}
+@keyframes spin{
+    to{
+        transform:rotate(360deg)
+    }
+}
