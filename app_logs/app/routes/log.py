@@ -9,7 +9,6 @@ log_bp = Blueprint('log', __name__, template_folder='../templates')
 logtask = {}
 log_lock = threading.Lock()
 
-
 def _background_worker(machines, logs):
     """Background worker that runs the synchronous read and stores results."""
     content, errors = logreader.read(machines, logs)
@@ -95,6 +94,7 @@ def manageLogs():
             action = request.form.get('manage_action')
             if action == 'add':
                 new_path = request.form.get('new_log_path', '').strip()
+                new_path = new_path.replace(" ", "")
                 Log.add_log(new_path)
             elif action == 'delete':
                 file_path = request.form.get('file_to_manage')
