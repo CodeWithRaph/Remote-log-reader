@@ -8,7 +8,9 @@ import getpass
 private_key_path = "/root/.ssh/id_rsa"
 # user used on remotes machines
 username = os.getenv("SSH_USER")
-# optional passphrase for the private key (set via environment variable)
+# ssh connection timeout in seconds
+connect_timeout = int(os.getenv("SSH_CONNECT_TIMEOUT"))
+# optional passphrase for the private key
 ssh_key_passphrase = os.getenv("SSH_PASSPHRASE")
 
 def findLogs(hosts, logs):
@@ -28,7 +30,10 @@ def findLogs(hosts, logs):
     errors = []
     for host in hosts:
         try:
-            connect_kwargs = {"key_filename": private_key_path}
+            connect_kwargs = {
+                "key_filename": private_key_path,
+                "timeout": connect_timeout
+            }
             if ssh_key_passphrase:
                 connect_kwargs["passphrase"] = ssh_key_passphrase
 
