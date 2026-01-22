@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, session, abort, url_for
 from app import db, logreader
-from app.models.applogs import Privilege, Role, User, Machine, Log
-from app.utils import string_hash, registered, get_role, get_privileges, ip_valide
+from app.models.applogs import Role, User
+from app.utils import get_role, get_privileges
 
 user_bp = Blueprint('user', __name__, template_folder='../templates')
 
