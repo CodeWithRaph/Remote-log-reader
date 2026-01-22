@@ -77,6 +77,10 @@ class User(db.Model):
     @staticmethod
     def edit_user(id, username, rights):
         """Update the concerned user in the right table of the db"""
+        from flask import session
+
+        if id == f'{session.get('id')}':
+            return (False, "Vous ne pouvez pas modifier votre propre compte.")
         u = User.query.get(id)
 
         if u != None:
